@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 
+console.log("HOLA DESDE UPDATEREADME");
+
 // Path del README
 // eslint-disable-next-line no-undef
 const readmePath = path.join(__dirname, "..", "README.md");
