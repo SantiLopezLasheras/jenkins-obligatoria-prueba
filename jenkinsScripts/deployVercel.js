@@ -14,7 +14,7 @@ const deployToVercel = (vercelToken) => {
 
     // Hacer el despliegue en Vercel
     console.log("Deploying to production...");
-    execSync(`vercel --prod --token ${vercelToken} --confirm`, {
+    execSync(`vercel --prod --token ${vercelToken} --yes`, {
       stdio: "inherit",
     });
 

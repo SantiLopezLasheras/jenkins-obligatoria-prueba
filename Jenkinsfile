@@ -93,14 +93,12 @@ pipeline {
               env.DEPLOY_STATUS = 'failure'
             }
 
-            // Instalar la CLI de Vercel
-            sh "npm install -g vercel"
+            // sh "npm install -g vercel"
 
-            // Autenticarse con el token de Vercel
-            sh """
-              vercel login ${VERCEL_TOKEN}
-              vercel --prod --token ${VERCEL_TOKEN} --confirm
-            """
+            // sh """
+            //   vercel login ${VERCEL_TOKEN}
+            //   vercel --prod --token ${VERCEL_TOKEN} --confirm
+            // """
           }
         }
       }
@@ -113,7 +111,7 @@ pipeline {
           echo "Resultado Linter: ${env.LINTER_STATUS}"
           echo "Resultado Test: ${env.TEST_STATUS}"
           echo "Resultado Update_Readme: ${env.UPDATE_README_STATUS}"
-          echo "Resultado Deploy to Vercel: ${env.VERCEL_DEPLOY_STATUS}"
+          echo "Resultado Deploy to Vercel: ${env.DEPLOY_STATUS}"
           
         }
       }
