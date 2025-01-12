@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 // Path del README
+// eslint-disable-next-line no-undef
 const readmePath = path.join(__dirname, "..", "README.md");
 
 // URL del badge
