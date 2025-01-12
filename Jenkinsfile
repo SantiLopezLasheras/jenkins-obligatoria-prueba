@@ -85,7 +85,13 @@ pipeline {
       steps {
         withCredentials([string(credentialsId: 'vercel-token', variable: 'VERCEL_TOKEN')]) {
           script {
-            echo "Deploying to Vercel..."
+            def resultadoDeploy = sh "node ./jenkinsScripts/deployVercel.js ${VERCEL_TOKEN}"
+
+            if (resultadoJest == 0) {
+              env.DEPLOY_STATUS = 'success'
+            } else {
+              env.DEPLOY_STATUS = 'failure'
+            }
 
             // Instalar la CLI de Vercel
             sh "npm install -g vercel"
