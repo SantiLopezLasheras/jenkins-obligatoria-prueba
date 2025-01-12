@@ -1,4 +1,4 @@
-const { execSync } = require("child_process");
+import { execSync } from "child_process";
 
 // Obtenemos el executor y el motivo como parámetros de la pipeline
 const executor = process.argv[2];
