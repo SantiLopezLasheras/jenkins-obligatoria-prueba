@@ -20,8 +20,8 @@ pipeline {
           )
 
           // Acceder a los parámetros proporcionados por el usuario
-          def executor = userInput['executor']
-          def motiu = userInput['motiu']
+          def executor = userInput.executor
+          def motiu = userInput.motiu
 
           // Mostrar los valores proporcionados por el usuario
           echo "Executor: ${executor}"
