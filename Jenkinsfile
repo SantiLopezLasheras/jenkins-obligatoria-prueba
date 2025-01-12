@@ -26,8 +26,6 @@ pipeline {
             env.LINTER_STATUS = 'failure'
           }
         }
-        
-        
       }
     }
     stage('Test') {
@@ -53,7 +51,15 @@ pipeline {
     stage('Update_Readme') {
       steps {
         echo "Update_Readme"
-        sh "node ./jenkinsScripts/updateReadme.js '${env.TEST_STATUS}'"
+        script {
+          def resultadoUpdateReadme = sh "node ./jenkinsScripts/updateReadme.js '${env.TEST_STATUS}'" 
+
+          if (resultadoUpdateReadme == 0) {
+            env.UPDATE_README_STATUS = 'success'
+          } else {
+            env.UPDATE_README_STATUS = 'failure'
+          }
+        }
       }
     }
     // stage('Push_Changes') {
@@ -100,18 +106,9 @@ pipeline {
           // Accediendo a los resultados de cada etapa
           echo "Resultado Linter: ${env.LINTER_STATUS}"
           echo "Resultado Test: ${env.TEST_STATUS}"
-          echo "Resultado Build: ${env.BUILD_STATUS}"
           echo "Resultado Update_Readme: ${env.UPDATE_README_STATUS}"
           echo "Resultado Deploy to Vercel: ${env.VERCEL_DEPLOY_STATUS}"
           
-          // Si todos los resultados son 'success', la pipeline será exitosa
-          def finalResult = 'success'
-          if (env.PETICIO_STATUS == 'failure' || env.LINTER_STATUS == 'failure' || env.TEST_STATUS == 'failure' || 
-              env.BUILD_STATUS == 'failure' || env.UPDATE_README_STATUS == 'failure' || env.VERCEL_DEPLOY_STATUS == 'failure') {
-            finalResult = 'failure'
-          }
-
-          echo "El resultado final de la pipeline es: ${finalResult}"
         }
       }
     }
@@ -120,7 +117,7 @@ pipeline {
     always {
       script {
         sh "npm install node-telegram-bot-api"
-        sh "node ./jenkinsScripts/sendMessage.js '${params.motiu}' '${params.chatID}'"
+        sh "node ./jenkinsScripts/sendMessage.js '${params.chatID}' '${env.LINTER_STATUS}' '${env.TEST_STATUS}' '${env.UPDATE_README_STATUS}' '${env.DEPLOY_STATUS}'"
       }
     }
   }
