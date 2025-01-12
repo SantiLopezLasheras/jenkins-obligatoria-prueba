@@ -1,5 +1,6 @@
 import js from "@eslint/js";
 import globals from "globals";
+import jestPlugin from "eslint-plugin-jest";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
@@ -10,7 +11,13 @@ export default [
     files: ["**/*.{js,jsx}"],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: { ...globals.browser, process: "readonly", ...globals.jest },
+      globals: {
+        ...globals.browser,
+        process: "readonly",
+        ...globals.jest,
+        module: "readonly",
+        require: "readonly",
+      },
       parserOptions: {
         ecmaVersion: "latest",
         ecmaFeatures: { jsx: true },
@@ -19,6 +26,7 @@ export default [
     },
     settings: { react: { version: "18.3" } },
     plugins: {
+      jest: jestPlugin,
       react,
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
