@@ -2,8 +2,8 @@ pipeline {
   agent any
   tools { nodejs 'Node' }
   parameters {
-  //   string(name: 'executor', defaultValue: 'user', description: 'Nom de la persona que executa la pipeline')
-  //   string(name: 'motiu', defaultValue: 'motiu', description: 'Motiu pel qual estem executant la pipeline')
+    string(name: 'executor', defaultValue: 'user', description: 'Nom de la persona que executa la pipeline')
+    string(name: 'motiu', defaultValue: 'motiu', description: 'Motiu pel qual estem executant la pipeline')
     string(name: 'chatID', defaultValue: 'num_chat', description: 'ChatID de telegram per a notificar els resultats')
   }
   stages {
@@ -16,6 +16,7 @@ pipeline {
             parameters: [
               string(name: 'executor', defaultValue: 'user', description: 'Nom de la persona que executa la pipeline'),
               string(name: 'motiu', defaultValue: 'motiu', description: 'Motiu pel qual estem executant la pipeline'),
+              string(name: 'chatID', defaultValue: 'num_chat', description: 'ChatID de telegram per a notificar els resultats')
             ]
           )
 
@@ -35,16 +36,26 @@ pipeline {
     }
     stage('Linter') {
       steps {
-        sh "npm install"
         script {
-          def resultadoLinter = sh(script: "npm run lint", returnStatus: true, returnStdout: true)
-
-          if (resultadoLinter == "0") {
+          try {
+            sh "npm install"
+            sh "npm run lint"
             env.LINTER_STATUS = 'success'
-          } else {
+          } catch (e) {
+            console.log(e)
             env.LINTER_STATUS = 'failure'
           }
         }
+        // sh "npm install"
+        // script {
+        //   def resultadoLinter = sh(script: "npm run lint", returnStatus: true, returnStdout: true)
+
+        //   if (resultadoLinter == "0") {
+        //     env.LINTER_STATUS = 'success'
+        //   } else {
+        //     env.LINTER_STATUS = 'failure'
+        //   }
+        // }
       }
     }
     stage('Test') {
