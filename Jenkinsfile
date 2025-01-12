@@ -23,7 +23,7 @@ pipeline {
           // Acceder a los parámetros proporcionados por el usuario
           def executor = userInput['executor']
           def motiu = userInput['motiu']
-          def chatID = userInput['chatID']
+          def chatID = userInput['chatID'].toInteger()
 
           // Mostrar los valores proporcionados por el usuario
           echo "Executor: ${executor}"
@@ -40,9 +40,9 @@ pipeline {
       steps {
         sh "npm install"
         script {
-          def resultadoLinter = sh "npm run lint"
+          def resultadoLinter = sh(script: "npm run lint", returnStatus: true, returnStdout: true)
 
-          if (resultadoLinter == 0) {
+          if (resultadoLinter == "0") {
             env.LINTER_STATUS = 'success'
           } else {
             env.LINTER_STATUS = 'failure'
@@ -107,9 +107,9 @@ pipeline {
       steps {
         withCredentials([string(credentialsId: 'vercel-token', variable: 'VERCEL_TOKEN')]) {
           script {
-            def resultadoDeploy = sh "node ./jenkinsScripts/deployVercel.js ${VERCEL_TOKEN}"
+            def resultadoDeploy = sh(script: "node ./jenkinsScripts/deployVercel.js ${VERCEL_TOKEN}", returnStatus: true, returnStdout: true)
 
-            if (resultadoDeploy == 0) {
+            if (resultadoDeploy == "0") {
               env.DEPLOY_STATUS = 'success'
             } else {
               env.DEPLOY_STATUS = 'failure'
