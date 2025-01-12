@@ -1,11 +1,11 @@
 pipeline {
   agent any
   tools { nodejs 'Node' }
-  // parameters {
+  parameters {
   //   string(name: 'executor', defaultValue: 'user', description: 'Nom de la persona que executa la pipeline')
   //   string(name: 'motiu', defaultValue: 'motiu', description: 'Motiu pel qual estem executant la pipeline')
-  //   string(name: 'chatID', defaultValue: 'num_chat', description: 'ChatID de telegram per a notificar els resultats')
-  //}
+    string(name: 'chatID', defaultValue: 'num_chat', description: 'ChatID de telegram per a notificar els resultats')
+  }
   stages {
     stage('Petició de dades') {
       steps {
@@ -16,19 +16,16 @@ pipeline {
             parameters: [
               string(name: 'executor', defaultValue: 'user', description: 'Nom de la persona que executa la pipeline'),
               string(name: 'motiu', defaultValue: 'motiu', description: 'Motiu pel qual estem executant la pipeline'),
-              string(name: 'chatID', defaultValue: 'num_chat', description: 'ChatID de telegram per a notificar els resultats')
             ]
           )
 
           // Acceder a los parámetros proporcionados por el usuario
           def executor = userInput['executor']
           def motiu = userInput['motiu']
-          def chatID = userInput['chatID']
 
           // Mostrar los valores proporcionados por el usuario
           echo "Executor: ${executor}"
           echo "Motiu: ${motiu}"
-          echo "Chat ID: ${chatID}"
         }
 
         sh "node index.js '${params.executor}'"
