@@ -17,6 +17,7 @@ export default [
         ...globals.jest,
         module: "readonly",
         require: "readonly",
+        __dirname: "readonly",
       },
       parserOptions: {
         ecmaVersion: "latest",
