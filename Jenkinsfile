@@ -49,6 +49,15 @@ pipeline {
     stage('Push_Changes') {
       steps {
         echo "Push_Changes"
+        echo "Push_Changes"
+        withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN')]) {
+          // Usamos el nombre de usuario y el token para autenticar la URL remota de GitHub
+          sh """
+            git remote set-url origin https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/tu_usuario/tu_repositorio.git
+            git add README.md
+            git commit -m "Pipeline executada per ${params.executor}. Motiu: ${params.motiu}"
+            git push origin main
+          """
         withCredentials([string(credentialsId: 'token-github', variable: 'GITHUB_TOKEN')]) {
           // Ejecutar el script de Node.js, pasando el token de GitHub
           sh "node ./jenkinsScripts/pushReadme.js '${params.executor}' '${params.motiu}' '${GITHUB_TOKEN}'"
