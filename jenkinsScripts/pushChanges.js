@@ -3,10 +3,16 @@ import { execSync } from "child_process";
 // Obtenemos el executor y el motivo como parámetros de la pipeline
 const executor = process.argv[2];
 const motivo = process.argv[3];
+const githubToken = process.argv[4];
 
 // Cambiar al directorio raíz del repositorio
-execSync('git config --global user.name "SantiLopezLasheras"');
-execSync('git config --global user.email "sanloplas@alu.edu.gva.es"');
+execSync('git config --global user.name "Jenkins"');
+execSync('git config --global user.email "jenkins@ci.com"');
+
+// Configuramos la URL remota con el token de acceso personal (PAT) para autenticación
+const repoUrl = `https://${githubToken}:x-oauth-basic@github.com/SantiLopezLasheras/jenkins-obligatoria-prueba`;
+
+execSync(`git remote set-url origin ${repoUrl}`);
 
 // Aseguramos que las ramas remotas estén actualizadas
 execSync("git fetch origin");
