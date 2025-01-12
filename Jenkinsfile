@@ -43,13 +43,13 @@ pipeline {
     stage('Update_Readme') {
       steps {
         echo "Update_Readme"
-        echo "Test status: ${env.TEST_STATUS}"
         sh "node ./jenkinsScripts/updateReadme.js '${env.TEST_STATUS}'"
       }
     }
     stage('Push_Changes') {
       steps {
         echo "Push_Changes"
+        sh "node ./jenkinsScripts/pushReadme.js '${params.executor}' '${params.motiu}'"
       }
     }
     stage('Deploy to Vercel') {
