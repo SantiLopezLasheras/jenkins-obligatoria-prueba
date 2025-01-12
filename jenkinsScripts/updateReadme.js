@@ -3,7 +3,6 @@ import path from "path";
 
 async function main() {
   const resultadoJest = process.argv[2];
-  console.log(`HOLA DESDE UPDATEREADME: ${resultadoJest}`);
 
   try {
     const badge =
@@ -13,6 +12,10 @@ async function main() {
 
     const __dirname = path.dirname(new URL(import.meta.url).pathname);
     const ruta_OldREADME = path.join(__dirname, "..", "OldREADME.md");
+
+    console.log("Ruta de OldREADME.md:", ruta_OldREADME);
+
+    // copiar contenido del readme antiguo y la badge al nuevo readme.md
     const old_readme = await fs.readFile(ruta_OldREADME, "utf8");
     const new_readme = `<img src="${badge}" />` + "\n" + old_readme;
 
