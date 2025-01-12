@@ -54,6 +54,7 @@ pipeline {
           sh "node ./jenkinsScripts/pushReadme.js '${params.executor}' '${params.motiu}' '${GITHUB_TOKEN}'"
         }
       }
+    }
     stage('Deploy to Vercel') {
       steps {
         echo "Deploy to Vercel"
