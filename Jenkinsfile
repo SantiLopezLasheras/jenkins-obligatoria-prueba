@@ -46,28 +46,41 @@ pipeline {
         sh "node ./jenkinsScripts/updateReadme.js '${env.TEST_STATUS}'"
       }
     }
-    stage('Push_Changes') {
-      steps {
-        echo "Push_Changes"
-        withCredentials([usernamePassword(credentialsId: 'token-github', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN')]) {
-          // Usamos el nombre de usuario y el token para autenticar la URL remota de GitHub
-          sh """
-            git remote set-url origin https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/SantiLopezLasheras/jenkins-obligatoria-prueba.git
-            git pull --rebase origin main
-            git add README.md
-            git commit -m "Pipeline executada per ${params.executor}. Motiu: ${params.motiu}"
-            git push origin main
-          """
-        withCredentials([string(credentialsId: 'token-github', variable: 'GITHUB_TOKEN')]) {
-          // Ejecutar el script de Node.js, pasando el token de GitHub
-          sh "node ./jenkinsScripts/pushReadme.js '${params.executor}' '${params.motiu}' '${GITHUB_TOKEN}'"
-        }
-      }
-      }
-    }
+    // stage('Push_Changes') {
+    //   steps {
+    //     echo "Push_Changes"
+    //     withCredentials([usernamePassword(credentialsId: 'token-github', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN')]) {
+    //       // Usamos el nombre de usuario y el token para autenticar la URL remota de GitHub
+    //       sh """
+    //         git remote set-url origin https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/SantiLopezLasheras/jenkins-obligatoria-prueba.git
+    //         git pull --rebase origin main
+    //         git add README.md
+    //         git commit -m "Pipeline executada per ${params.executor}. Motiu: ${params.motiu}"
+    //         git push origin main
+    //       """
+    //     withCredentials([string(credentialsId: 'token-github', variable: 'GITHUB_TOKEN')]) {
+    //       // Ejecutar el script de Node.js, pasando el token de GitHub
+    //       sh "node ./jenkinsScripts/pushReadme.js '${params.executor}' '${params.motiu}' '${GITHUB_TOKEN}'"
+    //     }
+    //   }
+    //   }
+    // }
     stage('Deploy to Vercel') {
       steps {
-        echo "Deploy to Vercel"
+        withCredentials([string(credentialsId: 'vercel-token', variable: 'VERCEL_TOKEN')]) {
+          script {
+            echo "Deploying to Vercel..."
+
+            // Instalar la CLI de Vercel
+            sh "npm install -g vercel"
+
+            // Autenticarse con el token de Vercel
+            sh """
+              vercel login ${VERCEL_TOKEN}
+              vercel --prod --token ${VERCEL_TOKEN} --confirm
+            """
+          }
+        }
       }
     }
     stage('Notificació') {
