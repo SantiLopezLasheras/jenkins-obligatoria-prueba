@@ -5,7 +5,7 @@ pipeline {
   //   string(name: 'executor', defaultValue: 'user', description: 'Nom de la persona que executa la pipeline')
   //   string(name: 'motiu', defaultValue: 'motiu', description: 'Motiu pel qual estem executant la pipeline')
   //   string(name: 'chatID', defaultValue: 'num_chat', description: 'ChatID de telegram per a notificar els resultats')
-  }
+  //}
   stages {
     stage('Petició de dades') {
       steps {
