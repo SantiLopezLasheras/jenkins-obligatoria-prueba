@@ -23,7 +23,7 @@ pipeline {
           // Acceder a los parámetros proporcionados por el usuario
           def executor = userInput['executor']
           def motiu = userInput['motiu']
-          def chatID = userInput['chatID'].toInteger()
+          def chatID = userInput['chatID'].toLong()
 
           // Mostrar los valores proporcionados por el usuario
           echo "Executor: ${executor}"
