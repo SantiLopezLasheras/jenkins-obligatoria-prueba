@@ -1,11 +1,11 @@
-const fs = require("fs");
-const path = require("path");
+import { readFile, writeFile } from "fs";
+import { join } from "path";
 
 console.log("HOLA DESDE UPDATEREADME");
 
 // Path del README
 // eslint-disable-next-line no-undef
-const readmePath = path.join(__dirname, "..", "README.md");
+const readmePath = join(__dirname, "..", "README.md");
 
 // URL del badge
 const badgeSuccess =
@@ -16,7 +16,7 @@ const badgeFailure =
 // Función para actualizar el README
 const updateReadme = (status) => {
   // Lee el archivo README.md
-  fs.readFile(readmePath, "utf8", (err, data) => {
+  readFile(readmePath, "utf8", (err, data) => {
     if (err) {
       console.error("Error leyendo el README.md:", err);
       process.exit(1);
@@ -42,7 +42,7 @@ const updateReadme = (status) => {
 
 // Función para escribir el archivo README actualizado
 const writeUpdatedReadme = (updatedData) => {
-  fs.writeFile(readmePath, updatedData, "utf8", (err) => {
+  writeFile(readmePath, updatedData, "utf8", (err) => {
     if (err) {
       console.error("Error escribiendo el README.md:", err);
       process.exit(1);
