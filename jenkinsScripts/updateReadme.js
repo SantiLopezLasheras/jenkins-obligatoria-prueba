@@ -1,7 +1,7 @@
 import { readFile, writeFile } from "fs";
 import { join } from "path";
 
-console.log("HOLA DESDE UPDATEREADME");
+console.log(`HOLA DESDE UPDATEREADME: ${process.argv[2]}`);
 
 // Path del README
 // eslint-disable-next-line no-undef

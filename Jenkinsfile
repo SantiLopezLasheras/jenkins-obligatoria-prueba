@@ -44,7 +44,7 @@ pipeline {
       steps {
         echo "Update_Readme"
         echo "Test status: ${env.TEST_STATUS}"
-        sh "node ./jenkinsScripts/updateReadme.js"
+        sh "node ./jenkinsScripts/updateReadme.js '${env.TEST_STATUS}'"
       }
     }
     stage('Push_Changes') {
