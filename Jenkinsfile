@@ -32,10 +32,6 @@ pipeline {
           } else {
             env.TEST_STATUS = 'failure'
           }
-
-          // echo para probar
-          echo "Test status: ${env.TEST_STATUS}"
-          sh "echo Test status: ${env.TEST_STATUS}"
         }
       }
     }
@@ -47,6 +43,7 @@ pipeline {
     stage('Update_Readme') {
       steps {
         echo "Update_Readme"
+        echo "Test status: ${env.TEST_STATUS}"
       }
     }
     stage('Push_Changes') {
