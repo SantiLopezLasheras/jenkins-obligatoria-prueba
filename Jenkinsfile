@@ -49,7 +49,6 @@ pipeline {
     stage('Push_Changes') {
       steps {
         echo "Push_Changes"
-        echo "Push_Changes"
         withCredentials([usernamePassword(credentialsId: 'token-github', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN')]) {
           // Usamos el nombre de usuario y el token para autenticar la URL remota de GitHub
           sh """
@@ -62,6 +61,7 @@ pipeline {
           // Ejecutar el script de Node.js, pasando el token de GitHub
           sh "node ./jenkinsScripts/pushReadme.js '${params.executor}' '${params.motiu}' '${GITHUB_TOKEN}'"
         }
+      }
       }
     }
     stage('Deploy to Vercel') {
