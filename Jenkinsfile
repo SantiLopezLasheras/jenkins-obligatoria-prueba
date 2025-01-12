@@ -49,7 +49,7 @@ pipeline {
     stage('Push_Changes') {
       steps {
         echo "Push_Changes"
-        sh "node ./jenkinsScripts/pushReadme.js '${params.executor}' '${params.motiu}'"
+        sh "node ./jenkinsScripts/pushChanges.js '${params.executor}' '${params.motiu}'"
       }
     }
     stage('Deploy to Vercel') {
