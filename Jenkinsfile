@@ -49,7 +49,7 @@ pipeline {
     stage('Push_Changes') {
       steps {
         echo "Push_Changes"
-        withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
+        withCredentials([string(credentialsId: 'token-github', variable: 'GITHUB_TOKEN')]) {
           // Ejecutar el script de Node.js, pasando el token de GitHub
           sh "node ./jenkinsScripts/pushReadme.js '${params.executor}' '${params.motiu}' '${GITHUB_TOKEN}'"
         }
