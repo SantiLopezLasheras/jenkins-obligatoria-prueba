@@ -46,16 +46,6 @@ pipeline {
             env.LINTER_STATUS = 'failure'
           }
         }
-        // sh "npm install"
-        // script {
-        //   def resultadoLinter = sh(script: "npm run lint", returnStatus: true, returnStdout: true)
-
-        //   if (resultadoLinter == "0") {
-        //     env.LINTER_STATUS = 'success'
-        //   } else {
-        //     env.LINTER_STATUS = 'failure'
-        //   }
-        // }
       }
     }
     stage('Test') {
@@ -80,18 +70,23 @@ pipeline {
     }
     stage('Update_Readme') {
       steps {
-        echo "Update_Readme"
         script {
-          def resultadoUpdateReadme = sh "node ./jenkinsScripts/updateReadme.js '${env.TEST_STATUS}'" 
+          echo "Update_Readme"
 
-          if (resultadoUpdateReadme == 0) {
+          try {
+            sh "node ./jenkinsScripts/updateReadme.js '${env.TEST_STATUS}'" 
             env.UPDATE_README_STATUS = 'success'
-          } else {
+          } catch (e) {
+            console.log(e)
             env.UPDATE_README_STATUS = 'failure'
           }
         }
+        // script {
+        //   def resultadoUpdateReadme = sh "node ./jenkinsScripts/updateReadme.js '${env.TEST_STATUS}'" 
+        // }
       }
     }
+
     // stage('Push_Changes') {
     //   steps {
     //     echo "Push_Changes"
@@ -113,8 +108,25 @@ pipeline {
     // }
     stage('Deploy to Vercel') {
       steps {
+        script {
+          echo "Deploy to Vercel"
+
+          try {
+            withCredentials([string(credentialsId: 'vercel-token', variable: 'VERCEL_TOKEN')]) {
+              script {
+                sh "node ./jenkinsScripts/deployVercel.js ${VERCEL_TOKEN}"
+              }
+            }
+            sh "node ./jenkinsScripts/updateReadme.js '${env.TEST_STATUS}'" 
+          } catch (e) {
+            console.log(e)
+            env.DEPLOY_STATUS = 'failure'
+          }
+        }
+        
         withCredentials([string(credentialsId: 'vercel-token', variable: 'VERCEL_TOKEN')]) {
           script {
+            
             def resultadoDeploy = sh(script: "node ./jenkinsScripts/deployVercel.js ${VERCEL_TOKEN}", returnStatus: true, returnStdout: true)
 
             if (resultadoDeploy == "0") {
