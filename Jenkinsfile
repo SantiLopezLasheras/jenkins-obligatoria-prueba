@@ -17,7 +17,17 @@ pipeline {
     stage('Linter') {
       steps {
         sh "npm install"
-        sh "npm run lint"
+        script {
+          def resultadoLinter = sh "npm run lint"
+
+          if (resultadoLinter == 0) {
+            env.LINTER_STATUS = 'success'
+          } else {
+            env.LINTER_STATUS = 'failure'
+          }
+        }
+        
+        
       }
     }
     stage('Test') {
@@ -86,11 +96,23 @@ pipeline {
     stage('Notificació') {
       steps {
         echo "Notificació"
-        echo env.res_stage1
-        echo env.res_stage2
-        echo env.res_stage3
-        echo env.res_stage4
-        
+        script {
+          // Accediendo a los resultados de cada etapa
+          echo "Resultado Linter: ${env.LINTER_STATUS}"
+          echo "Resultado Test: ${env.TEST_STATUS}"
+          echo "Resultado Build: ${env.BUILD_STATUS}"
+          echo "Resultado Update_Readme: ${env.UPDATE_README_STATUS}"
+          echo "Resultado Deploy to Vercel: ${env.VERCEL_DEPLOY_STATUS}"
+          
+          // Si todos los resultados son 'success', la pipeline será exitosa
+          def finalResult = 'success'
+          if (env.PETICIO_STATUS == 'failure' || env.LINTER_STATUS == 'failure' || env.TEST_STATUS == 'failure' || 
+              env.BUILD_STATUS == 'failure' || env.UPDATE_README_STATUS == 'failure' || env.VERCEL_DEPLOY_STATUS == 'failure') {
+            finalResult = 'failure'
+          }
+
+          echo "El resultado final de la pipeline es: ${finalResult}"
+        }
       }
     }
   }
