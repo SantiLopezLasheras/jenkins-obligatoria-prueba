@@ -21,8 +21,9 @@ pipeline {
       }
     }
     stage('Test') {
-      script {
-        // ejecutamos el test de Jest y lo guardamos en una variable
+      steps {
+        script {
+          // ejecutamos el test de Jest y lo guardamos en una variable
         def resultadoJest = sh(script: "npm run test", returnStatus: true)
 
         // Creación de variable de entorno con el resultado
@@ -34,6 +35,7 @@ pipeline {
 
         // echo para probar
         echo "Test status: ${env.TEST_STATUS}"
+        }
       }
     }
     stage('Build') {
