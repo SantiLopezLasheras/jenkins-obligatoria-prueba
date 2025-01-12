@@ -48,6 +48,11 @@ pipeline {
     stage('Notificació') {
       steps {
         echo "Notificació"
+        echo env.res_stage1
+        echo env.res_stage2
+        echo env.res_stage3
+        echo env.res_stage4
+        
       }
     }
   }
