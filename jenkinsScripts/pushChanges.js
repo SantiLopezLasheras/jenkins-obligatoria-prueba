@@ -5,7 +5,7 @@ const executor = process.argv[2];
 const motivo = process.argv[3];
 
 // Cambiar al directorio raíz del repositorio
-execSync('git config --global user.name "SantiLopezLasheras');
+execSync('git config --global user.name "SantiLopezLasheras"');
 execSync('git config --global user.email "sanloplas@alu.edu.gva.es"');
 
 // Aseguramos que las ramas remotas estén actualizadas
