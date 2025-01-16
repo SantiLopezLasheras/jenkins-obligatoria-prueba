@@ -97,7 +97,7 @@ pipeline {
             git fetch origin
             git status
             git pull -v origin main
-            git add README.md
+            git add .
             git status
             git commit -m "Pipeline executada per ${params.executor}. Motiu: ${params.motiu}"
             git status
