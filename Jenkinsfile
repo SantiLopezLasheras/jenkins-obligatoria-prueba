@@ -96,11 +96,11 @@ pipeline {
             git remote set-url origin https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/SantiLopezLasheras/jenkins-obligatoria-prueba.git
             git fetch origin
             git status
-            git pull origin main
+            git pull -v origin main
             git add README.md
             git status
             git commit -m "Pipeline executada per ${params.executor}. Motiu: ${params.motiu}"
-            git push origin main
+            git push -v origin main
           """
         // withCredentials([string(credentialsId: 'token-github', variable: 'GITHUB_TOKEN')]) {
         //   // Ejecutar el script de Node.js, pasando el token de GitHub
