@@ -27,6 +27,7 @@ try {
 
 // Añadir cambios en el archivo README
 execSync("git add README.md");
+execSync("git status");
 
 // Hacer commit con el mensaje solicitado
 const commitMessage = `Pipeline executada per ${executor}. Motiu: ${motivo}`;
