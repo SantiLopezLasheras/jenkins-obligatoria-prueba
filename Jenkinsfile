@@ -94,7 +94,8 @@ pipeline {
           // Usamos el nombre de usuario y el token para autenticar la URL remota de GitHub
           sh """
             git remote set-url origin https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/SantiLopezLasheras/jenkins-obligatoria-prueba.git
-            git pull --rebase origin main
+            git status
+            git pull origin main
             git add README.md
             git status
             git commit -m "Pipeline executada per ${params.executor}. Motiu: ${params.motiu}"
