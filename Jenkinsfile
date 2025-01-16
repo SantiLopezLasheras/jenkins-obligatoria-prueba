@@ -100,6 +100,7 @@ pipeline {
             git add README.md
             git status
             git commit -m "Pipeline executada per ${params.executor}. Motiu: ${params.motiu}"
+            git status
             git pull origin main
             git push -v origin main
           """
