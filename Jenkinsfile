@@ -96,6 +96,7 @@ pipeline {
             git remote set-url origin https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/SantiLopezLasheras/jenkins-obligatoria-prueba.git
             git pull --rebase origin main
             git add README.md
+            git status
             git commit -m "Pipeline executada per ${params.executor}. Motiu: ${params.motiu}"
             git push origin main
           """
