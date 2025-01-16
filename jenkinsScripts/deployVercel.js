@@ -16,8 +16,8 @@ const deployToVercel = (vercelToken) => {
     });
 
     console.log("Aplicación desplegada correctamente en Vercel.");
-  } catch (error) {
-    console.err("No se ha podido desplegar en Vercel:", err);
+  } catch (err) {
+    console.log("No se ha podido desplegar en Vercel:", err);
     process.exit(1);
   }
 };
