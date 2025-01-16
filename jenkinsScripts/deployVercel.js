@@ -4,23 +4,20 @@ const vercelToken = process.argv[2];
 
 const deployToVercel = (vercelToken) => {
   try {
-    // Instalar la CLI de Vercel si no está instalada
-    console.log("Installing Vercel CLI...");
+    // Usando CLI de Vercel
     execSync("npm install -g vercel", { stdio: "inherit" });
 
     // Autenticarse con el token de Vercel
-    console.log("Authenticating with Vercel...");
     execSync(`vercel login ${vercelToken}`, { stdio: "inherit" });
 
-    // Hacer el despliegue en Vercel
-    console.log("Deploying to production...");
+    // Deploy en Vercel
     execSync(`vercel --prod --token ${vercelToken} --yes`, {
       stdio: "inherit",
     });
 
-    console.log("Deployment to Vercel completed successfully.");
+    console.log("Aplicación desplegada correctamente en Vercel.");
   } catch (error) {
-    console.error("Error during deployment to Vercel:", error);
+    console.err("No se ha podido desplegar en Vercel:", err);
     process.exit(1);
   }
 };

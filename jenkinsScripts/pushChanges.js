@@ -9,7 +9,7 @@ const githubToken = process.argv[4];
 execSync('git config --global user.name "Jenkins"');
 execSync('git config --global user.email "jenkins@ci.com"');
 
-// Configuramos la URL remota con el token de acceso personal (PAT) para autenticación
+// Configuramos la URL remota con el token de acceso personal para autenticación
 const repoUrl = `https://${githubToken}:x-oauth-basic@github.com/SantiLopezLasheras/jenkins-obligatoria-prueba`;
 
 execSync(`git remote set-url origin ${repoUrl}`);

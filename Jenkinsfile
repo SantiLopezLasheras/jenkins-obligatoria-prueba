@@ -24,7 +24,7 @@ pipeline {
           def executor = userInput.executor
           def motiu = userInput.motiu
 
-          // Mostrar los valores proporcionados por el usuario
+          // Mostrar los valores proporcionados por el usuario // no me funciona, me devuelve null en otros stages, guardarlo en variable de entorno ? env.executor = userInput?
           echo "Executor: ${executor}"
           echo "Motiu: ${motiu}"
         }
@@ -87,25 +87,25 @@ pipeline {
       }
     }
 
-    // stage('Push_Changes') {
-    //   steps {
-    //     echo "Push_Changes"
-    //     withCredentials([usernamePassword(credentialsId: 'token-github', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN')]) {
-    //       // Usamos el nombre de usuario y el token para autenticar la URL remota de GitHub
-    //       sh """
-    //         git remote set-url origin https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/SantiLopezLasheras/jenkins-obligatoria-prueba.git
-    //         git pull --rebase origin main
-    //         git add README.md
-    //         git commit -m "Pipeline executada per ${params.executor}. Motiu: ${params.motiu}"
-    //         git push origin main
-    //       """
-    //     withCredentials([string(credentialsId: 'token-github', variable: 'GITHUB_TOKEN')]) {
-    //       // Ejecutar el script de Node.js, pasando el token de GitHub
-    //       sh "node ./jenkinsScripts/pushReadme.js '${params.executor}' '${params.motiu}' '${GITHUB_TOKEN}'"
-    //     }
-    //   }
-    //   }
-    // }
+    stage('Push_Changes') {
+      steps {
+        echo "Push_Changes"
+        withCredentials([usernamePassword(credentialsId: 'token-github', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN')]) {
+          // Usamos el nombre de usuario y el token para autenticar la URL remota de GitHub
+          sh """
+            git remote set-url origin https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/SantiLopezLasheras/jenkins-obligatoria-prueba.git
+            git pull --rebase origin main
+            git add README.md
+            git commit -m "Pipeline executada per ${params.executor}. Motiu: ${params.motiu}"
+            git push origin main
+          """
+        // withCredentials([string(credentialsId: 'token-github', variable: 'GITHUB_TOKEN')]) {
+        //   // Ejecutar el script de Node.js, pasando el token de GitHub
+        //   sh "node ./jenkinsScripts/pushReadme.js '${params.executor}' '${params.motiu}' '${GITHUB_TOKEN}'"
+        // }
+      }
+      }
+    }
     stage('Deploy to Vercel') {
       steps {
         script {

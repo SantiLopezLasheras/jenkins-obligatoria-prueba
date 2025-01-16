@@ -2,7 +2,6 @@ import { promises as fs } from "fs";
 
 async function main() {
   const resultadoJest = process.argv[2];
-  console.log(`HOLA DESDE UPDATEREADME: ${resultadoJest}`);
 
   try {
     const badge =
